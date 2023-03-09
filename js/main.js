@@ -1,10 +1,4 @@
-/**
- * + Thêm
- *    + validation
- * + Xóa
- * + Sửa
- * + Tìm kiếm
- */
+
 
 //instance
 const list = new ListOfEmployee();
@@ -21,7 +15,7 @@ function getClassOfEle(classname) {
 }
 
 
-
+// show table
 function showTable(array) {
  
     var content = "";
@@ -36,28 +30,22 @@ function showTable(array) {
       
             <td>${emp.position}</td>
 
-            <td>${emp.totalSalary}</td>
+            <td>${emp.totalSalary.toLocaleString()}</td>
             <td>${emp.category}</td>
              <td>
               <button onclick="deleteEmp('${emp.account}')" class="btn btn-danger">Delete</button>
                 <button data-toggle="modal"
-                data-target="#myModal" onclick="showEmp('${emp.account}')"  class="btn btn-info" >Show Details</button>
+                data-target="#myModal" onclick="showEmp('${emp.account}')" class="btn btn-info" >Show Details</button>
              </td>
         </tr>`
         
         content += trELE;
     })
        document.getElementById("tableDanhSach").innerHTML = content;
-        // getElE("tableDanhSach").innerHTML = content;
+      
 }
-// <td>
-            //     <button onclick="xoaSinhVien('${sv.maSV}')"   class="btn btn-danger"  >Xóa</button>//
-            //     <button onclick="xemChiTiet('${sv.maSV}')"       class="btn btn-info" >Xem</button>
-            // </td>
 
-//Local storage : lưu trữ ở trình duyệt của người dùng
-// Lưu các thông tin không bảo mật, giảm tải dung lượng cho BE, tăng performance
-
+//local storage
 function setLocalStorage(array) {
     
         localStorage.setItem("List-Of-Employee", JSON.stringify(array));
@@ -74,9 +62,9 @@ function getLocalStorage() {
 
 
 }
-getLocalStorage();//gọi khi load trang
+getLocalStorage();
 
-
+// function add employee
 function addEmp() {
     
     var accountEmp = getELE("tknv").value;
@@ -87,6 +75,8 @@ function addEmp() {
     var salaryEmp = getELE("luongCB").value;
     var positionEmp = getELE("chucvu").value;
     var hourEmp = getELE("gioLam").value;
+
+    
    
 
     //TODO: Validation
@@ -111,7 +101,7 @@ function addEmp() {
 
 
     //Date
-    isValid &= validation.checkEmpty(workingDayEmp, "tbNgay", "Ngày làm không để trống!") 
+    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không để trống !");
 
 
     //Salary
@@ -121,20 +111,19 @@ function addEmp() {
     //Position
 
     isValid &= validation.checkSelectPosition("chucvu", "tbChucVu", "Chức vụ không để trống !");
-    //Date
-    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không để trống !");
-    console.log('110',document.getElementById("datepicker").value)
+    
 
     //Working hour
     isValid &= validation.checkEmpty(hourEmp, "tbGiolam", " Giờ làm không để trống!") && validation.checkWorkingHourPerMonth(hourEmp, "tbGiolam", "Giờ làm không hợp lệ !");
 
 
      console.log(accountEmp, fullNameEmp, emailEmp, passEmp, workingDayEmp, salaryEmp, positionEmp, hourEmp)
+
     if (isValid) {
         
         var emp = new Employee(accountEmp, fullNameEmp, emailEmp, passEmp, workingDayEmp, salaryEmp, positionEmp, hourEmp);
 
-        emp.calculateSalary()
+        emp.calculateSalary(positionEmp)
 
         emp.classifyEmployee(hourEmp);
        
@@ -195,19 +184,60 @@ function update() {
     var salaryEmp = getELE("luongCB").value;
     var positionEmp = getELE("chucvu").value;
     var hourEmp = getELE("gioLam").value;
-   
 
+
+    //TODO: Validation
+  
+    var isValid = true;
+
+
+    //Name
+
+    isValid &= validation.checkEmpty(fullNameEmp, "tbTen", "Tên nhân viên không để trống!") && validation.checkName(fullNameEmp, "tbTen", "Tên nhân viên chưa đúng định dạng!");
+
+
+    //Email: có dữ liệu ko, đúng định dạng không
+
+    isValid &= validation.checkEmpty(emailEmp, "tbEmail", "Email không để trống!") && validation.checkEmail(emailEmp, "tbEmail", "Email chưa đúng định dạng!")
+
+    //Pass
+    isValid &= validation.checkEmpty(passEmp, "tbMatKhau", "Mật khẩu không để trống!") && validation.checkPass(passEmp, "tbMatKhau", "Mật khẩu chưa đúng định dạng!")
+
+
+    //Date
+    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không để trống !");
+
+
+
+    //Salary
+
+    isValid &= validation.checkEmpty(salaryEmp, "tbLuongCB", "Lương cơ bản không để trống!") && validation.checkSalary(salaryEmp, "tbLuongCB", "Lương cơ bản không hợp lệ!");
+
+    //Position
+
+    isValid &= validation.checkSelectPosition("chucvu", "tbChucVu", "Chức vụ không để trống !");
+    
+
+    //Working hour
+    isValid &= validation.checkEmpty(hourEmp, "tbGiolam", " Giờ làm không để trống!") && validation.checkWorkingHourPerMonth(hourEmp, "tbGiolam", "Giờ làm không hợp lệ !");
+   
+    //TODO: call instance
+
+    if( isValid){
     var emp = new Employee(accountEmp, fullNameEmp, emailEmp, passEmp, workingDayEmp, salaryEmp, positionEmp, hourEmp);
 
-    emp.calculateSalary();
+    //TODO: call method
+
+    emp.calculateSalary( positionEmp);
 
     emp.classifyEmployee(hourEmp);
 
-    //TODO: call method
+    
     list.updateEmployee(emp);
 
     setLocalStorage(list.arrayEmployee);
     getLocalStorage();
+    }
 
 }
 

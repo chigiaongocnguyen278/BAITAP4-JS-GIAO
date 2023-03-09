@@ -102,30 +102,34 @@ function Validation() {
             document.getElementById(spanID).innerHTML = message;
             return false
     }
+
+
     //date
+     //?function to check if input is empty and convert valid date to  format dd/mm/yyyy
+
     this.checkDate = function (valueInput, spanID, message){
         var date = new Date(document.getElementById(valueInput).value);
-         
-    
-    //function to convert enterd date to any format
 
-    var date = new Date(document.getElementById(valueInput).value);
+     var day = date.getDate();
+     var month = date.getMonth();
+     var year = date.getFullYear();
+  
 
-    var day = date.getDate();
-    var month = date.getMonth();
-    var year = date.getFullYear();
-
-    if(day!='' && month!='' && year!=''){
-        document.getElementById(valueInput).value=day+" / "+month+" / "+year;
-        return true;
-    }
-    else{
+    if( date.toString() !== 'Invalid Date' ){
         
+        document.getElementById(spanID).style.display = "none";
+        document.getElementById(spanID).innerHTML = "";
+
+        document.getElementById(valueInput).value = day +" / " + (month+1) + " / " + year;
+        return true;
+         
+    } else {
+    
         document.getElementById(spanID).style.display = "block";
         document.getElementById(spanID).innerHTML = message;
         return false
     }
-}
+    }
 
 
      //salary
@@ -177,5 +181,4 @@ function Validation() {
             document.getElementById(spanID).innerHTML = message;
             return false
     }
-
 }

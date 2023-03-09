@@ -12,9 +12,15 @@ function Employee(account, fullName, email, pass, workingDay, salary, position, 
     this.totalSalary= 0;
     this.category= "";
     
-    this.calculateSalary = function(){
-        this.totalSalary = salary ;
+    this.calculateSalary = function(position){
+        if ( position =="Sếp"){
+        this.totalSalary = salary*3 ;
+    }else if ( position == "Trưởng phòng"){
+        this.totalSalary = salary*2 ;
+    } else {
+        this.totalSalary = salary
     }
+}
     this.classifyEmployee = function(hour){
         if(hour>=192){
             return this.category = " Xuất sắc"
