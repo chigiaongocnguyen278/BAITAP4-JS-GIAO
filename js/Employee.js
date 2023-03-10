@@ -13,12 +13,18 @@ function Employee(account, fullName, email, pass, workingDay, salary, position, 
     this.category= "";
     
     this.calculateSalary = function(position){
+
         if ( position =="Sếp"){
-        this.totalSalary = salary*3 ;
+
+       return this.totalSalary = salary*3 ;
+       
     }else if ( position == "Trưởng phòng"){
-        this.totalSalary = salary*2 ;
+
+       return this.totalSalary = salary*2 ;
+
     } else {
-        this.totalSalary = salary
+
+       return this.totalSalary = salary
     }
 }
     this.classifyEmployee = function(hour){
@@ -26,10 +32,15 @@ function Employee(account, fullName, email, pass, workingDay, salary, position, 
             return this.category = " Xuất sắc"
 
         } else if(hour>=176 && hour < 192){
+
             return this.category = " Giỏi "
+            
         } else if (hour>=160 && hour < 176 ){
+
             return this.category = " Khá "
+
         } else {
+
             return this.category = " Trung bình"
         }
     }

@@ -1,5 +1,5 @@
 function Validation() {
-     // check if input is emptu
+     // check if input is empty
     this.checkEmpty = function (valueInput, spanID, message) {
         if (valueInput == "") {
       
@@ -113,21 +113,26 @@ function Validation() {
      var day = date.getDate();
      var month = date.getMonth();
      var year = date.getFullYear();
-  
 
-    if( date.toString() !== 'Invalid Date' ){
+     
+    // 
+
+    if(  date.toString() !== 'Invalid Date' ){
         
         document.getElementById(spanID).style.display = "none";
         document.getElementById(spanID).innerHTML = "";
 
-        document.getElementById(valueInput).value = day +" / " + (month+1) + " / " + year;
+        document.getElementById(valueInput).value = (month+1) +" / " + day  + " / " + year;
         return true;
-         
+        
+       
+
     } else {
-    
         document.getElementById(spanID).style.display = "block";
         document.getElementById(spanID).innerHTML = message;
         return false
+    
+    
     }
     }
 

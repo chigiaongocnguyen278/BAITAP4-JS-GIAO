@@ -8,22 +8,22 @@ function ListOfEmployee() {
         this.arrayEmployee.push(emp);
     }
 
-    this.findIndexEmp = function (acc) {
+    this.findIndexEmp = function (accountNumber) {
     
         var indexFind = -1;
         
         indexFind = this.arrayEmployee.findIndex(function (emp) {
         
-            return emp.account == acc;
+            return emp.account == accountNumber;
         })
 
             return indexFind;
     }
 
 
-    this.deleteEmployee = function (acc) {
+    this.deleteEmployee = function (accountNumber) {
         
-        var index = this.findIndexEmp(acc);
+        var index = this.findIndexEmp(accountNumber);
       
         if (index != -1) {
             

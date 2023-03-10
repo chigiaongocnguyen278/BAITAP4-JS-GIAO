@@ -9,45 +9,46 @@ function getELE(id) {
 
     return document.getElementById(id);
 }
-function getClassOfEle(classname) {
 
-    return document.querySelector(classname);
-}
+// function getClassOfEle(classname) {
+
+//     return document.querySelector(classname);
+// }
 
 
 // show table
 function showTable(array) {
- 
+
     var content = "";
-   
+
     array.map(function (emp) {
-       
+
         var trELE = `<tr>
             <td>${emp.account}</td>
             <td>${emp.fullName}</td>
             <td>${emp.email}</td>
             <td>${emp.workingDay}</td>
-      
+
             <td>${emp.position}</td>
 
             <td>${emp.totalSalary.toLocaleString()}</td>
             <td>${emp.category}</td>
              <td>
-              <button onclick="deleteEmp('${emp.account}')" class="btn btn-danger">Delete</button>
+              <button onclick="deleteEmp('${emp.account}')" class="btn btn-danger">Xóa</button>
                 <button data-toggle="modal"
-                data-target="#myModal" onclick="showEmp('${emp.account}')" class="btn btn-info" >Show Details</button>
+                data-target="#myModal" onclick="showEmp('${emp.account}')" class="btn btn-info" > Xem</button>
              </td>
         </tr>`
-        
+
         content += trELE;
     })
        document.getElementById("tableDanhSach").innerHTML = content;
-      
+
 }
 
 //local storage
 function setLocalStorage(array) {
-    
+
         localStorage.setItem("List-Of-Employee", JSON.stringify(array));
 
 }
@@ -55,7 +56,7 @@ function setLocalStorage(array) {
 function getLocalStorage() {
 
        if (localStorage.getItem("List-Of-Employee") != null) {
-       
+
         list.arrayEmployee = JSON.parse(localStorage.getItem("List-Of-Employee"));
         showTable(list.arrayEmployee);
       }
@@ -64,9 +65,43 @@ function getLocalStorage() {
 }
 getLocalStorage();
 
+
+//clear form when add another employee
+clearForm = () => {
+    let elements = document.getElementsByClassName("input-sm");
+    for (let element of elements){
+        element.value="";
+    }
+    getELE("tknv").disabled = false;
+    getELE("chucvu").selectedIndex = 0;
+
+}
+
+// inform user when successfully add or update by calling modal
+// callModal = ( informMessage1,informMessage2,type) => {
+//     getELE("modalMessage").innerHTML= informMessage1;
+//     getELE("modalSubMessage").innerHTML= informMessage2;
+
+//      switch(type){
+//        case 1:
+//            getELE("btnThemNV").style.display ="block";
+//             getELE("btnCapNhat").style.display ="none";
+
+//             break;
+//         case 2 :
+//             getELE("btnThemNV").style.display ="none";
+//             getELE("btnCapNhat").style.display ="block";
+
+//              break;
+//          }
+// }
+
+
+
 // function add employee
 function addEmp() {
-    
+
+
     var accountEmp = getELE("tknv").value;
     var fullNameEmp= getELE("name").value;
     var emailEmp = getELE("email").value;
@@ -76,11 +111,11 @@ function addEmp() {
     var positionEmp = getELE("chucvu").value;
     var hourEmp = getELE("gioLam").value;
 
-    
-   
+
+
 
     //TODO: Validation
-  
+
     var isValid = true;
 
 
@@ -101,7 +136,7 @@ function addEmp() {
 
 
     //Date
-    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không để trống !");
+    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không hợp lệ!");
 
 
     //Salary
@@ -111,7 +146,7 @@ function addEmp() {
     //Position
 
     isValid &= validation.checkSelectPosition("chucvu", "tbChucVu", "Chức vụ không để trống !");
-    
+
 
     //Working hour
     isValid &= validation.checkEmpty(hourEmp, "tbGiolam", " Giờ làm không để trống!") && validation.checkWorkingHourPerMonth(hourEmp, "tbGiolam", "Giờ làm không hợp lệ !");
@@ -120,43 +155,47 @@ function addEmp() {
      console.log(accountEmp, fullNameEmp, emailEmp, passEmp, workingDayEmp, salaryEmp, positionEmp, hourEmp)
 
     if (isValid) {
-        
+
         var emp = new Employee(accountEmp, fullNameEmp, emailEmp, passEmp, workingDayEmp, salaryEmp, positionEmp, hourEmp);
 
         emp.calculateSalary(positionEmp)
 
         emp.classifyEmployee(hourEmp);
-       
-        list.addEmployee(emp);
-    
-        showTable(list.arrayEmployee);
-        setLocalStorage(list.arrayEmployee);
-    }
 
+        list.addEmployee(emp);
+
+        showTable(list.arrayEmployee);
+
+        setLocalStorage(list.arrayEmployee);
+
+        // callModal(" THÊM NHÂN VIÊN THÀNH CÔNG !", "Danh sách nhân viên đã được thêm ",1);
+
+
+    }
 
 
 }
 
 
-
+//function delete employee
 function deleteEmp(acc) {
-  
+
     list.deleteEmployee(acc);
     setLocalStorage(list.arrayEmployee);
- 
+
     getLocalStorage();
 
 }
 
 
-
+//function show employee on table
 
 function showEmp(acc) {
-    
+
     var index = list.findIndexEmp(acc);
     if (index != -1) {
-     
-        console.log(list.arrayEmployee[index]);
+
+
 
         getELE("tknv").value =list.arrayEmployee[index].account;
         getELE("tknv").disabled = true;
@@ -164,18 +203,18 @@ function showEmp(acc) {
         getELE("name").value =list.arrayEmployee[index].fullName;
         getELE("email").value = list.arrayEmployee[index].email;
         getELE("password").value = list.arrayEmployee[index].pass;
-        
+
         getELE("datepicker").value = list.arrayEmployee[index].workingDay;
         getELE("luongCB").value =list.arrayEmployee[index].salary;
         getELE("chucvu").value = list.arrayEmployee[index].position;
         getELE("gioLam").value = list.arrayEmployee[index].workingHourPerMOnth;
-   
+
     }
 }
 
 
 function update() {
-   
+
     var accountEmp = getELE("tknv").value;
     var fullNameEmp= getELE("name").value;
     var emailEmp = getELE("email").value;
@@ -187,7 +226,7 @@ function update() {
 
 
     //TODO: Validation
-  
+
     var isValid = true;
 
 
@@ -205,7 +244,7 @@ function update() {
 
 
     //Date
-    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không để trống !");
+    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không hợp lệ !");
 
 
 
@@ -216,33 +255,38 @@ function update() {
     //Position
 
     isValid &= validation.checkSelectPosition("chucvu", "tbChucVu", "Chức vụ không để trống !");
-    
+
 
     //Working hour
     isValid &= validation.checkEmpty(hourEmp, "tbGiolam", " Giờ làm không để trống!") && validation.checkWorkingHourPerMonth(hourEmp, "tbGiolam", "Giờ làm không hợp lệ !");
-   
+
     //TODO: call instance
 
     if( isValid){
+
     var emp = new Employee(accountEmp, fullNameEmp, emailEmp, passEmp, workingDayEmp, salaryEmp, positionEmp, hourEmp);
 
-    //TODO: call method
 
     emp.calculateSalary( positionEmp);
 
     emp.classifyEmployee(hourEmp);
 
-    
+
     list.updateEmployee(emp);
 
     setLocalStorage(list.arrayEmployee);
+
     getLocalStorage();
+
+    // callModal(" CẬP NHẬT THÀNH CÔNG !","Danh sách nhân viên đã được cập nhật" );
+
     }
+
 
 }
 
 
-
+// function search employee
 
 function search() {
     var keyword = getELE("searchName").value;
