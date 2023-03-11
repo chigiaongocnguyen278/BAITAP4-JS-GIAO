@@ -136,7 +136,7 @@ function addEmp() {
 
 
     //Date
-    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không hợp lệ!") && validation.dateCorrectForm("datepicker");
+    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không hợp lệ!");
 
 
     //Salary

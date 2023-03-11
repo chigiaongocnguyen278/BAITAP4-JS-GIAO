@@ -108,23 +108,19 @@ function Validation() {
      //?function to check if input is empty and convert valid date to  format mm/dd/yyyy
 
     this.checkDate = function (valueInput, spanID, message){
-        var date = new Date(document.getElementById(valueInput).value);
+        var date = document.getElementById(valueInput).value;
+        // var date1 = new Date(date1);
 
-        var day = date.getDate();
-        var month = date.getMonth()+1;
-        var year = date.getFullYear();
+        // var day = date1.getDate();
+        // var month = date1.getMonth();
+        // var year = date1.getFullYear();
+      
        
-        if(  date.toString() !== 'Invalid Date'   ){
+        if(moment(date, 'MM/DD/YYYY', true).isValid() ){
              
-
             document.getElementById(spanID).style.display = "none";
             document.getElementById(spanID).innerHTML = "";
 
-
-             document.getElementById(valueInput).value = ((''+month).length<2 ? '0' : '') + month  + '/' +
-            ((''+day).length<2 ? '0' : '') + day + '/' + year;
-            
-        
         return true;
             
         } else  {
@@ -137,11 +133,6 @@ function Validation() {
         
         
     }
-
-    // this.dateCorrectForm = function(valueInput){
-    //     document.getElementById(valueInput).value = ((''+month).length<2 ? '0' : '') + month  + '/' +
-    //     ((''+day).length<2 ? '0' : '') + day + '/' + year;
-    // }
 
 
      //salary
