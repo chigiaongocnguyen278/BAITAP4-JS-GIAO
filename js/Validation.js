@@ -105,38 +105,43 @@ function Validation() {
 
 
     //date
-     //?function to check if input is empty and convert valid date to  format dd/mm/yyyy
+     //?function to check if input is empty and convert valid date to  format mm/dd/yyyy
 
     this.checkDate = function (valueInput, spanID, message){
         var date = new Date(document.getElementById(valueInput).value);
 
-     var day = date.getDate();
-     var month = date.getMonth()+1;
-     var year = date.getFullYear();
-
-     
-    // 
-
-    if(  date.toString() !== 'Invalid Date' ){
-        
-        document.getElementById(spanID).style.display = "none";
-        document.getElementById(spanID).innerHTML = "";
-
-        document.getElementById(valueInput).value = ((''+month).length<2 ? '0' : '') + month  + '/' +
-        ((''+day).length<2 ? '0' : '') + day + '/' + year;
-      
-        return true;
-        
+        var day = date.getDate();
+        var month = date.getMonth()+1;
+        var year = date.getFullYear();
        
+        if(  date.toString() !== 'Invalid Date'   ){
+             
 
-    } else {
-        document.getElementById(spanID).style.display = "block";
-        document.getElementById(spanID).innerHTML = message;
-        return false
+            document.getElementById(spanID).style.display = "none";
+            document.getElementById(spanID).innerHTML = "";
+
+
+             document.getElementById(valueInput).value = ((''+month).length<2 ? '0' : '') + month  + '/' +
+            ((''+day).length<2 ? '0' : '') + day + '/' + year;
+            
+        
+        return true;
+            
+        } else  {
+            document.getElementById(spanID).style.display = "block";
+            document.getElementById(spanID).innerHTML = message;
+            return false
     
-    
+        }
+
+        
+        
     }
-    }
+
+    // this.dateCorrectForm = function(valueInput){
+    //     document.getElementById(valueInput).value = ((''+month).length<2 ? '0' : '') + month  + '/' +
+    //     ((''+day).length<2 ? '0' : '') + day + '/' + year;
+    // }
 
 
      //salary

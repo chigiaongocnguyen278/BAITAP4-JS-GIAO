@@ -129,14 +129,14 @@ function addEmp() {
 
     //Email: có dữ liệu ko, đúng định dạng không
 
-    isValid &= validation.checkEmpty(emailEmp, "tbEmail", "Email không để trống!") && validation.checkEmail(emailEmp, "tbEmail", "Email chưa đúng định dạng!")
+    isValid &= validation.checkEmpty(emailEmp, "tbEmail", "Email không để trống!") && validation.checkEmail(emailEmp, "tbEmail", "Email chưa đúng định dạng!");
 
     //Pass
-    isValid &= validation.checkEmpty(passEmp, "tbMatKhau", "Mật khẩu không để trống!") && validation.checkPass(passEmp, "tbMatKhau", "Mật khẩu chưa đúng định dạng!")
+    isValid &= validation.checkEmpty(passEmp, "tbMatKhau", "Mật khẩu không để trống!") && validation.checkPass(passEmp, "tbMatKhau", "Mật khẩu chưa đúng định dạng!");
 
 
     //Date
-    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không hợp lệ!");
+    isValid &= validation.checkDate("datepicker", "tbNgay", "Ngày làm không hợp lệ!") && validation.dateCorrectForm("datepicker");
 
 
     //Salary
