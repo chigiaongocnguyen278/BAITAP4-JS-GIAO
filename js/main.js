@@ -10,12 +10,6 @@ function getELE(id) {
     return document.getElementById(id);
 }
 
-// function getClassOfEle(classname) {
-
-//     return document.querySelector(classname);
-// }
-
-
 // show table
 function showTable(array) {
 
@@ -66,7 +60,7 @@ function getLocalStorage() {
 getLocalStorage();
 
 
-//clear form when add another employee
+//clear form and disable "Cap Nhat button" when add another employee
 clearForm = () => {
     let elements = document.getElementsByClassName("input-sm");
     for (let element of elements){
@@ -74,6 +68,9 @@ clearForm = () => {
     }
     getELE("tknv").disabled = false;
     getELE("chucvu").selectedIndex = 0;
+
+    document.getElementById("btnCapNhat").disabled = true;
+    document.getElementById("btnThemNV").disabled = false;
 
 }
 
@@ -84,12 +81,25 @@ function sortArrayEmp(array) {
 
     return array;
 }
-//  console.log(sortArrayEmp(list.arrayEmployee), '85')
+
+
+// show password
+
+function TogglePassword() {
+    var temp = document.getElementById("password");
+    if (temp.type === "password") {
+        temp.type = "text";
+    }
+    else {
+        temp.type = "password";
+    }
+}
 
 
 
 // function add employee
 function addEmp() {
+   
 
 
     var accountEmp = getELE("tknv").value;
@@ -195,10 +205,9 @@ function deleteEmp(acc) {
             getLocalStorage();
 
 
-          swal("Xóa thành công!", {
-            icon: "success",
-          });
+          swal("Xóa thành công!", { icon: "success",});
         } else {
+
           swal(" Danh sách nhân viên vẫn giữ nguyên!");
         }
       });
@@ -223,17 +232,21 @@ function showEmp(acc) {
         getELE("name").value =list.arrayEmployee[index].fullName;
         getELE("email").value = list.arrayEmployee[index].email;
         getELE("password").value = list.arrayEmployee[index].pass;
-
         getELE("datepicker").value = list.arrayEmployee[index].workingDay;
         getELE("luongCB").value =list.arrayEmployee[index].salary;
         getELE("chucvu").value = list.arrayEmployee[index].position;
         getELE("gioLam").value = list.arrayEmployee[index].workingHourPerMOnth;
 
+        document.getElementById("btnThemNV").disabled = true;
+        document.getElementById("btnCapNhat").disabled = false;
+
     }
 }
 
+//function update
 
 function update() {
+ 
 
     var accountEmp = getELE("tknv").value;
     var fullNameEmp= getELE("name").value;
@@ -290,6 +303,8 @@ function update() {
     emp.calculateSalary( positionEmp);
 
     emp.classifyEmployee(hourEmp);
+
+   
 
 
     list.updateEmployee(emp);

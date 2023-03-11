@@ -7,7 +7,8 @@
 	<title>Quản lý nhân viên- BaiTapJS</title>
 
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 	<!-- Bootstrap 4 -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -230,7 +231,11 @@
 									<span class="input-group-text"><i class="fa fa-key"></i></span>
 								</div>
 								<input type="password" name="password" id="password" class="form-control input-sm"
-									placeholder="Mật khẩu">
+									placeholder="Mật khẩu" style="border-right: none;">
+									<!-- eye icon -->
+								<div class="input-group-prepend"  onclick="TogglePassword()">
+										<span class="input-group-text" style="background-color: white; border-left:transparent;"><i class="fa fa-eye"></i></span>
+								</div>	
 							</div>
 							<span class="sp-thongbao" id="tbMatKhau"></span>
 						</div>
