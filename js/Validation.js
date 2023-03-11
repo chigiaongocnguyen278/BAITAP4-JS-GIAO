@@ -29,7 +29,7 @@ function Validation() {
              document.getElementById(spanID).innerHTML = message;
             return false
         } else {
-         //? mã không trùng => hợp lệ
+     
             document.getElementById(spanID).style.display = "none";
             document.getElementById(spanID).innerHTML = "";
            return true
@@ -111,7 +111,7 @@ function Validation() {
         var date = new Date(document.getElementById(valueInput).value);
 
      var day = date.getDate();
-     var month = date.getMonth();
+     var month = date.getMonth()+1;
      var year = date.getFullYear();
 
      
@@ -122,7 +122,9 @@ function Validation() {
         document.getElementById(spanID).style.display = "none";
         document.getElementById(spanID).innerHTML = "";
 
-        document.getElementById(valueInput).value = (month+1) +" / " + day  + " / " + year;
+        document.getElementById(valueInput).value = ((''+month).length<2 ? '0' : '') + month  + '/' +
+        ((''+day).length<2 ? '0' : '') + day + '/' + year;
+      
         return true;
         
        

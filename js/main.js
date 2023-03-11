@@ -77,24 +77,14 @@ clearForm = () => {
 
 }
 
-// inform user when successfully add or update by calling modal
-// callModal = ( informMessage1,informMessage2,type) => {
-//     getELE("modalMessage").innerHTML= informMessage1;
-//     getELE("modalSubMessage").innerHTML= informMessage2;
+// function sort account number
+function sortArrayEmp(array) {
 
-//      switch(type){
-//        case 1:
-//            getELE("btnThemNV").style.display ="block";
-//             getELE("btnCapNhat").style.display ="none";
+    array.sort((a, b) => a.account - b.account);
 
-//             break;
-//         case 2 :
-//             getELE("btnThemNV").style.display ="none";
-//             getELE("btnCapNhat").style.display ="block";
-
-//              break;
-//          }
-// }
+    return array;
+}
+//  console.log(sortArrayEmp(list.arrayEmployee), '85')
 
 
 
@@ -164,11 +154,16 @@ function addEmp() {
 
         list.addEmployee(emp);
 
+        sortArrayEmp(list.arrayEmployee);
+
         showTable(list.arrayEmployee);
+
+     
 
         setLocalStorage(list.arrayEmployee);
 
-        // callModal(" THÊM NHÂN VIÊN THÀNH CÔNG !", "Danh sách nhân viên đã được thêm ",1);
+        
+        swal("THÊM NHÂN VIÊN THÀNH CÔNG !", " Danh sách nhân viên đã được thêm !", "success");
 
 
     }
@@ -180,10 +175,35 @@ function addEmp() {
 //function delete employee
 function deleteEmp(acc) {
 
-    list.deleteEmployee(acc);
-    setLocalStorage(list.arrayEmployee);
+   
 
-    getLocalStorage();
+    swal({
+        title: "Bạn có chắc chắn muốn xóa?",
+        text: "Một khi đã xóa thì không thể phục hồi lại được!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+
+            list.deleteEmployee(acc);
+           
+
+            setLocalStorage(list.arrayEmployee);
+
+            getLocalStorage();
+
+
+          swal("Xóa thành công!", {
+            icon: "success",
+          });
+        } else {
+          swal(" Danh sách nhân viên vẫn giữ nguyên!");
+        }
+      });
+
+    
 
 }
 
@@ -278,7 +298,8 @@ function update() {
 
     getLocalStorage();
 
-    // callModal(" CẬP NHẬT THÀNH CÔNG !","Danh sách nhân viên đã được cập nhật" );
+    
+    swal("CẬP NHẬT THÀNH CÔNG !", "Danh sách nhân viên đã được cập nhật !", "success");
 
     }
 
@@ -304,3 +325,4 @@ getELE("searchName").onkeyup = function(){
     var resultArr = list.searchCategory(keyword);
     showTable(resultArr);
 }
+
